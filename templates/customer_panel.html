@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Customer Panel | DijiKala{% endblock %}
+
+{% block content %}
+<h2>👤 Customer Panel</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="card" style="max-width: 400px;">
+        <p><strong>Name:</strong> {{ form.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ form.last_name }}</p>
+        <p><strong>Email:</strong> {{ form.email }}</p>
+        <p><strong>Balance:</strong> $ {{ form.balance }}</p>
+
+        <div style="margin-top: 10px;">
+            <button type="submit" class="btn">💾 Save Changes</button>
+            <a href="{% url 'payment' %}" class="btn">💳 Increase Balance</a>
+            <a href="{% url 'cart' %}" class="btn">🛒 View Cart</a>
+        </div>
+    </div>
+</form>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
