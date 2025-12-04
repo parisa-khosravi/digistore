@@ -11,9 +11,9 @@ class ProfileForm(forms.ModelForm):
             'email':'ایمیل',
             'balance':'اعتبار خرید',
         }
-        widget={
+        widgets={
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
-            'last_name' : forms.TextInput(attrs={'last_name':'form-control'}),
+            'last_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email':forms.EmailInput(attrs={'class':'form-control'}),
             'balance':forms.NumberInput(attrs={'calss':'form-control'})
         }

@@ -27,5 +27,5 @@ def profile_manage(sender,instance,created,**kwargs):
     if created:
         Profile.objects.create(user=instance,phone=phone)
     else:
-        Profile.objects.update_or_create(user=instance,defaults={'phnoe':phone})
+        Profile.objects.update_or_create(user=instance,defaults={'phone':phone})
 

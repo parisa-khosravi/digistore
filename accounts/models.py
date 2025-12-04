@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser,PermissionManager,BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUserManager
 
 
 class CustomerProfileManage(BaseUserManager):
@@ -22,7 +22,7 @@ class CustomerProfileManage(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self.create_user(phone,password,**extra_fields)
     
-class CustomUser(AbstractBaseUser,PermissionManager):
+class CustomUser(AbstractBaseUser,PermissionsMixin):
     phone = models.CharField(max_length=11,unique=True)
     # first_name = models.CharField(max_length=30,blank=True,null=True)
     # last_name = models.CharField(max_length=30,blank=True,null=True)

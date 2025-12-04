@@ -21,7 +21,7 @@ class ProfileView(LoginRequiredMixin,UpdateView):
 
        
     def form_valid(self, form):
-        messages.success(self.request,'بروفایل شما با موفقیت اوکی شد')
+        messages.success(self.request,'بروفایل شما با موفقیت تکمیل شد')
         return super().form_valid(form)
     def form_invalid(self, form):
         messages.error(self.request,'دوباره تلاش کنید')

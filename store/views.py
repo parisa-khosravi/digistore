@@ -42,17 +42,17 @@ class ProductListView(ListView):
     
 class ProductCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model=Product
-    Form_model=ProductForm
+    form_class=ProductForm
 
     def test_func(self):
-        store=Store.objects.get(id=self.kwargs['store.id'])
-        return self.requset.user == store.seller
+        store=Store.objects.get(id=self.kwargs['store_id'])
+        return self.request.user == store.seller
     def form_valid(self, form):
-        store=Store.objects.get(id=self.kwargs['store.id'])
+        store=Store.objects.get(id=self.kwargs['store_id'])
         form.instance.store=store
         return super().form_valid(form)
     def get_success_url(self):
-        return reverse_lazy('store_detail',kwargs={'pk':self.kwargs['store.id']})
+        return reverse_lazy('store_detail',kwargs={'pk':self.kwargs['store_id']})
 
 
 # class SellerPanelView(LoginRequiredMixin,ListView):

@@ -17,7 +17,7 @@ class CartView(LoginRequiredMixin,UserPassesTestMixin,TemplateView):
     
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
-        cart,create = cart.objects.get_or_create(customer=self.request.user)
+        cart,create =  Cart.objects.get_or_create(customer=self.request.user)
         context['cartitem']=CartItem.objects.filter(cart=cart)
         context['total_price']=sum(item.total_price for item in context['cartitem'])
         return context
@@ -35,7 +35,7 @@ class AddCartView(LoginRequiredMixin,UserPassesTestMixin,View):
             defaults={'quantity':1}
         )
         if not created:
-            self.quantity +=1
+            cartitem.quantity +=1
             cartitem.save()
 
         messages.success(request,f"{product} به سبد خرید شما اضافه شد")
@@ -74,8 +74,10 @@ class CheckOutView(LoginRequiredMixin,UserPassesTestMixin,View):
                     request.user.balance -= total_price
                     request.user.save()
                     cart_items.delete()
+                    messages.success(request,'خرید با موفقیت انجام شد')
+                    return redirect('home')
             except Exception as e:
-                messages.error(request,'خطا در برداخت')
+                messages.error(request,'خطا در برداخت:{str(e)}')
                 return redirect('cart')
 
    
