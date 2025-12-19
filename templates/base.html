@@ -1,45 +1,407 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}DijiKala{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}فروشگاه آنلاین{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #424242;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px; /* فونت ریزتر */
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* نوار بالا صورتی کمرنگ */
+        .header {
+            background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+            color: #880e4f;
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(240, 98, 146, 0.15);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 22px; /* کوچک‌تر */
+            font-weight: 700;
+            color: #880e4f;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px; /* فاصله کمتر */
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #880e4f;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 12px; /* کوچک‌تر */
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 14px; /* فونت ریزتر */
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(136, 14, 79, 0.1);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #880e4f;
+            background: rgba(136, 14, 79, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        /* دکمه‌ها کوچک و ملیح */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px; /* کوچک‌تر */
+            border: none;
+            border-radius: 8px;
+            font-size: 14px; /* فونت ریزتر */
+            font-weight: 500; /* نازک‌تر */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f06292 0%, #ec407a 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(240, 98, 146, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(240, 98, 146, 0.3);
+        }
+        
+      
+       /* حذف کادر از user-info و دکمه خروج */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #616161;
+    background: transparent; /* کادر حذف شد */
+    padding: 0; /* padding حذف شد */
+    border-radius: 0; /* گردی حذف شد */
+    font-size: 12px;
+    opacity: 0.9;
+    border: none; /* حاشیه حذف شد */
+}
+/* با رنگ‌های اصلی سایت */
+/* تغییر رنگ به صورتی اصلی سایت */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #880e4f;/* صورتی اصلی سایت */
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 12px;
+            opacity: 0.9;
+            border: none;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: #880e4f; /* صورتی اصلی سایت */
+            border: none;
+            box-shadow: none;
+            font-weight: 400;
+            opacity: 0.8;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .btn-danger:hover {
+            color: #880e4f;/* صورتی تیره‌تر */
+            opacity: 1;
+            background: transparent;
+            transform: none;
+            border: none;
+        }
+/* حذف hover effect از user-info */
+.user-info:hover {
+    background: transparent;
+}
+        .btn-success {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 187, 106, 0.2);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+        }
+        
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        .messages-container {
+            max-width: 800px;
+            margin: 15px auto;
+        }
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .alert-error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .alert-info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            margin-bottom: 24px;
+        }
+        
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #37474f;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background-color: #fff;
+            color: #37474f;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #f06292;
+            box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.1);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px; /* کمی کوتاه‌تر */
+            object-fit: cover;
+        }
+        
+        .product-content {
+            padding: 16px;
+        }
+        
+        .product-title {
+            font-size: 16px; /* کوچک‌تر */
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #37474f;
+        }
+        
+        .product-price {
+            color: #f06292;
+            font-size: 18px; /* کوچک‌تر */
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #f8bbd9 0%, #f48fb1 100%);
+            color: #880e4f;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+        }
+        
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 24px; }
+        .mt-4 { margin-top: 24px; }
+        .mx-auto { margin-right: auto; margin-left: auto; }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/font.css">
 </head>
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-left">
-                <a href="/" class="logo">🛍️ DijiKala</a>
-            </div>
-            <div class="nav-right">
+    <header class="header">
+        <nav class="nav-container">
+            <a href="{% url 'home' %}" class="logo">فروشگاه آنلاین</a>
+            {% if user.is_authenticated %}
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="text-align: left;">
+                        <div style="font-size: 16px; font-weight: bold; color: #a728a1;">
+                            {{ user.balance }} تومان
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="{% url 'payment' %}" class="btn btn-sm btn-secondary">+ افزایش اعتبار </a>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link">خانه</a>
+                <a href="{% url 'stores_list' %}" class="nav-link">فروشگاه‌ها</a>
+                
                 {% if user.is_authenticated %}
-                    <a href="{% url 'profile_panel' %}">👤 {{ user.username }}</a>
-                    <a href="{% url 'cart' %}">🛒 Cart</a>
-                    <a href="{% url 'logout' %}">Logout</a>
+                    {% if user.is_customer and not user.is_seller %}
+                        <a href="{% url 'cart' %}" class="nav-link">سبد خرید</a>
+                        <a href="{% url 'profile_panel' %}" class="nav-link">پنل کاربری</a>
+                    {% elif user.is_seller and not user.is_customer %}
+                        <a href="{% url 'store_create' %}" class="nav-link">ایجاد فروشگاه</a>
+                        <a href="{% url 'profile_panel' %}" class="nav-link">پنل فروشنده</a>
+                    {% endif %}
+                    <div class="user-info">
+                        {% if user.phone %}
+                            <span>{{ user.phone }}</span>
+                        {% endif %}
+                        <a href="{% url 'logout' %}" class="btn btn-danger">خروج</a>
+                    </div>
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                    <a href="{% url 'signup' %}">Sign Up</a>
-                    
+                    <a href="{% url 'login' %}" class="nav-link">ورود</a>
+                    <a href="{% url 'signup' %}" class="nav-link">ثبت نام</a>
                 {% endif %}
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Page content -->
-    <main class="container">
+    <main class="main-content">
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}error{% else %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer class="footer">
-        <p>© 2025 DijiKala – Made with ❤️ for Django students.</p>
-    </footer>
-
-    {% block scripts %}
-    {% endblock %}
 </body>
 </html>

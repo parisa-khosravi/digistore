@@ -24,14 +24,11 @@ class CustomerProfileManage(BaseUserManager):
     
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     phone = models.CharField(max_length=11,unique=True)
-    # first_name = models.CharField(max_length=30,blank=True,null=True)
-    # last_name = models.CharField(max_length=30,blank=True,null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=True)
     is_seller = models.BooleanField(default=False)
-    # date_joined = models.DateTimeField(auto_now_add=True)
-    # balance = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    balance = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
@@ -40,6 +37,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     
     def __str__(self):
         return self.phone
+    
 
 
 

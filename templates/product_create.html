@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}افزودن محصول جدید{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="text-center mb-0">
+                <i class="fas fa-plus-circle me-2"></i>
+                افزودن محصول جدید
+            </h2>
+        </div>
+        
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="form-group">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-plus me-2"></i>
+                        افزودن محصول
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'store_detail' pk=view.kwargs.store_id %}" class="btn btn-outline">
+                    <i class="fas fa-arrow-right me-2"></i>
+                    بازگشت به فروشگاه
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

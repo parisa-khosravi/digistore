@@ -1,28 +1,63 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Home | DijiKala{% endblock %}
+
+{% block title %}خانه{% endblock %}
 
 {% block content %}
-<h2>🛒 Latest Products</h2>
-<div class="card-grid">
-    {% for product in products %}
-        <div class="card">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-                <img src="{% static 'images/default_product.jpg' %}" alt="No image">
-            {% endif %}
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description|truncatewords:12 }}</p>
-            <p><strong>${{ product.price }}</strong></p>
-            {% if user.is_authenticated %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn">Add to Cart</a>
-            {% else %}
-                <p><a href="{% url 'login' %}">Login to Buy</a></p>
-            {% endif %}
-        </div>
-    {% empty %}
-        <p>No products yet!</p>
-    {% endfor %}
+<div class="text-center mb-4">
+    <h1>محصولات جدید</h1>
+    <p>جدیدترین محصولات فروشگاه‌های ما</p>
 </div>
+
+{% if products %}
+    <div class="products-grid">
+        {% for product in products %}
+            <div class="product-card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                    <div style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                        <span>بدون تصویر</span>
+                    </div>
+                {% endif %}
+                <div class="product-content">
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    <p class="product-price">{{ product.price }} تومان</p>
+                    {% if user == product.store.owner %}
+                    <div class="product-stock-control" style="margin: 10px 0;">
+                        <span>موجودی: <span id="stock-{{ product.id }}">{{ product.stock }}</span> عدد</span>
+                        <button onclick="updateStock({{ product.id }}, 'decrease')" class="btn btn-sm btn-outline-danger" style="padding: 2px 8px; margin-right: 5px;">−</button>
+                        <button onclick="updateStock({{ product.id }}, 'increase')" class="btn btn-sm btn-outline-success" style="padding: 2px 8px;">+</button>
+                    </div>
+                    {% endif %}
+                    <p>{{ product.description|truncatechars:100 }}</p>
+                    <p><small>فروشگاه: {{ product.store.name }}</small></p>
+                    {% if user == product.store.owner %}
+                        <form id="stock-form-{{ product.id }}" method="post" action="{% url 'update_product_stock' product.id %}" style="display: none;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" id="action-{{ product.id }}">
+                            <input type="hidden" name="quantity" id="quantity-{{ product.id }}" value="1">
+                        </form>
+
+                        <div class="product-stock-control" style="margin: 10px 0;">
+                            <span>موجودی: <span id="stock-{{ product.id }}">{{ product.stock }}</span> عدد</span>
+                            <button type="button" onclick="updateStock({{ product.id }}, 'decrease')" class="btn btn-sm btn-outline-danger" style="padding: 2px 8px; margin-right: 5px;">−</button>
+                            <button type="button" onclick="updateStock({{ product.id }}, 'increase')" class="btn btn-sm btn-outline-success" style="padding: 2px 8px;">+</button>
+                        </div>
+                    {% endif %}
+                    
+                    {% if user.is_authenticated and user.is_customer %}
+                        <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin-top: 15px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">افزودن به سبد خرید</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card text-center">
+        <p>هیچ محصولی موجود نیست.</p>
+    </div>
+{% endif %}
 {% endblock %}

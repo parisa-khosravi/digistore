@@ -1,20 +1,100 @@
 {% extends 'base.html' %}
-{% block title %}Seller Panel | DijiKala{% endblock %}
+
+{% block title %}پنل فروشنده{% endblock %}
 
 {% block content %}
-<h2>👨‍💼 Seller Panel</h2>
-
-
-
-<div class="card-grid" style="margin-top: 20px;">
-    {% for store in stores %}
-        <div class="card">
-            <h3>{{ store.name }}</h3>
-            <p>{{ store.description|truncatewords:15 }}</p>
-            <a href="{% url 'store_detail' store.id %}" class="btn">Manage Store</a>
+<div class="card">
+    <h2 class="text-center mb-4">پنل فروشنده</h2>
+    
+    <!-- اطلاعات پروفایل -->
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div style="color: #dc3545; margin-top: 5px; font-size: 14px;">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">ذخیره تغییرات پروفایل</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- بخش ایجاد فروشگاه جدید -->
+    <div style="margin-top: 40px; padding: 25px; background: #f8f9fa; border-radius: 8px;">
+        <h3 class="mb-4">ایجاد فروشگاه جدید</h3>
+        
+        <form method="post" action="{% url 'store_create' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">نام فروشگاه</label>
+                <input type="text" name="name" class="form-control" placeholder="نام فروشگاه خود را وارد کنید" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">توضیحات فروشگاه</label>
+                <textarea name="description" class="form-control" rows="3" placeholder="توضیحات درباره فروشگاه" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" style="width: 100%;">ایجاد فروشگاه</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- لیست فروشگاه‌های موجود -->
+    <div style="margin-top: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3>فروشگاه‌های من</h3>
         </div>
-    {% empty %}
-        <p>You have no stores yet.</p>
-    {% endfor %}
+        
+        {% if user.store_set.all %}
+            <div class="products-grid">
+                {% for store in user.store_set.all %}
+                    <div class="product-card">
+                        <div class="product-content">
+                            <h3 class="product-title">{{ store.name }}</h3>
+                            <p>{{ store.description|truncatechars:100 }}</p>
+                            
+                            <!-- تعداد محصولات -->
+                            <p><small>تعداد محصولات: {{ store.product_set.count }}</small></p>
+                            
+                            <!-- فرم افزودن محصول به این فروشگاه -->
+                            <div style="margin-top: 15px; padding: 15px; background: #f0f0f0; border-radius: 6px;">
+                                <h4 style="margin-bottom: 10px; font-size: 16px;">افزودن محصول جدید</h4>
+                                
+                                <form method="post" action="{% url 'product_create' store.id %}" enctype="multipart/form-data" style="display: grid; gap: 10px;">
+                                    {% csrf_token %}
+                                    <input type="text" name="name" class="form-control" placeholder="نام محصول" required>
+                                    <input type="number" name="price" class="form-control" placeholder="قیمت (تومان)" required>
+                                    <textarea name="description" class="form-control" rows="2" placeholder="توضیحات محصول" required></textarea>
+                                    <input type="file" name="image" class="form-control" accept="image/*">
+                                    <button type="submit" class="btn btn-success">افزودن محصول</button>
+                                </form>
+                            </div>
+                            
+                            <!-- محصولات این فروشگاه -->
+                            <div style="margin-top: 15px;">
+                                <a href="{% url 'store_detail' store.id %}" class="btn btn-primary">مشاهده محصولات ({{ store.product_set.count }})</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center" style="padding: 30px; background: #f8f9fa; border-radius: 8px;">
+                <p style="color: #666;">هنوز فروشگاهی ایجاد نکرده‌اید. فروشگاه جدید ایجاد کنید.</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

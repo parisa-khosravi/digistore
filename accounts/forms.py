@@ -23,7 +23,7 @@ class UserRegisterForm(UserCreationForm):
     )
     class Meta:
         model=CustomUser
-        fields=['phone','role','password1','password2']
+        fields=['phone','password1','password2']
 
 
     def save(self, commit =True):

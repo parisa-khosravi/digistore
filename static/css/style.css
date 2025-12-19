@@ -1,204 +1,790 @@
-/* ====== RESET ====== */
+/* ==============================================
+   RESET & BASE STYLES
+============================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-color: #f06292; /* صورتی کمرنگ */
+    --secondary-color: #ec407a; /* صورتی کمی تیره‌تر */
+    --success-color: #66bb6a; /* سبز ملایم */
+    --danger-color: #ef5350; /* قرمز ملایم */
+    --warning-color: #ffa726;
+    --info-color: #42a5f5;
+    --light-color: #f8fafc;
+    --dark-color: #37474f; /* خاکستری تیره‌تر و ملایم */
+    --gray-color: #78909c;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.3s;
+}
+
+html {
+    font-size: 14px; /* فونت ریزتر */
+    scroll-behavior: smooth;
 }
 
 body {
-    background-color: #f9fafb;
-    color: #222;
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    color: #424242; /* خاکستری ملایم‌تر */
+    line-height: 1.5; /* ارتفاع خط کمتر */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* ====== NAVBAR ====== */
-.navbar {
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    padding: 12px 0;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+/* ==============================================
+   TYPOGRAPHY - فونت ریزتر
+============================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* نازک‌تر */
+    line-height: 1.3;
+    color: var(--dark-color);
+    margin-bottom: 0.75rem; /* فاصله کمتر */
 }
 
-.container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto;
+h1 { font-size: 2rem; } /* کوچک‌تر */
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem; /* فونت ریزتر */
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* ==============================================
+   HEADER & NAVIGATION - نوار صورتی کمرنگ
+============================================== */
+
+.header {
+    background: linear-gradient(135deg, #f8bbd9 0%, #f48fb1 100%); /* صورتی کمرنگ */
+    color: #880e4f; /* متن تیره روی پس‌زمینه روشن */
+    padding: 0.75rem 0; /* ارتفاع کمتر */
+    box-shadow: 0 2px 10px rgba(240, 98, 146, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .logo {
+    font-size: 1.5rem; /* کوچک‌تر */
     font-weight: 700;
-    font-size: 1.3rem;
-    color: #0077cc;
+    color: #880e4f;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.nav-right a {
-    margin-left: 18px;
+.logo:hover {
+    color: #ad1457;
+    opacity: 0.9;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem; /* فاصله کمتر */
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: #880e4f;
     text-decoration: none;
-    color: #333;
     font-weight: 500;
-    transition: color 0.2s;
+    padding: 0.4rem 0.8rem; /* کوچک‌تر */
+    border-radius: 6px;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
 }
 
-.nav-right a:hover {
-    color: #0077cc;
+.nav-link:hover {
+    background-color: rgba(136, 14, 79, 0.1);
+    transform: translateY(-1px);
 }
 
-/* ====== MAIN CONTENT ====== */
-main.container {
-    flex: 1;
-    padding: 30px 0;
+.nav-link i {
+    font-size: 0.95rem;
 }
 
-/* ====== CARDS ====== */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #880e4f;
+    background: rgba(136, 14, 79, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
 }
+
+/* ==============================================
+   BUTTONS - دکمه‌های کوچک و ملیح
+============================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem; /* کوچک‌تر */
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem; /* فونت ریزتر */
+    font-weight: 500; /* نازک‌تر */
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.btn:hover::after {
+    width: 200px;
+    height: 200px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(240, 98, 146, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 98, 146, 0.3);
+}
+
+.btn-secondary {
+    background: var(--gray-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(120, 144, 156, 0.2);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, #4caf50 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 187, 106, 0.2);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+}
+
+/* دکمه خروج - قرمز ملایم */
+.btn-danger {
+    background: linear-gradient(135deg, #ff8a80 0%, #ff5252 100%); /* قرمز-صورتی ملایم */
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 138, 128, 0.2);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #ff5252 0%, #ff8a80 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 138, 128, 0.3);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #f57c00;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-color); /* حاشیه نازک‌تر */
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+.btn-lg {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ==============================================
+   CARDS - کارت‌های ظریف‌تر
+============================================== */
 
 .card {
-    background: #fff;
+    background: white;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    padding: 15px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 1.5rem; /* کوچک‌تر */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-.card img {
+.card-header {
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-footer {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==============================================
+   FORMS - فرم‌های ظریف
+============================================== */
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    font-size: 0.9rem;
+}
+
+.form-control {
     width: 100%;
-    height: 160px;
-    object-fit: cover;
+    padding: 0.8rem 1rem; /* کوچک‌تر */
+    border: 1px solid var(--border-color); /* حاشیه نازک‌تر */
     border-radius: 8px;
-    margin-bottom: 10px;
+    font-size: 0.9rem; /* فونت ریزتر */
+    font-family: inherit;
+    background-color: white;
+    color: var(--dark-color);
+    transition: all var(--transition-speed) ease;
 }
 
-.card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.1);
+    transform: translateY(-1px);
 }
 
-.card p {
-    color: #555;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+.form-control::placeholder {
+    color: var(--gray-color);
+    opacity: 0.7;
 }
 
-.btn {
-    background: #0077cc;
-    color: white;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.9rem;
-    transition: background 0.2s;
+.form-text {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--gray-color);
 }
 
-.btn:hover {
-    background: #005fa3;
+.form-error {
+    color: var(--danger-color);
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
 }
 
-/* ====== FOOTER ====== */
-.footer {
-    background-color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    border-top: 1px solid #eee;
-    font-size: 0.9rem;
-    color: #666;
+/* ==============================================
+   PRODUCTS & STORES GRID - محصولات ظریف‌تر
+============================================== */
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem; /* فاصله کمتر */
+    margin: 1.5rem 0;
 }
 
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-speed) ease;
+    border: 1px solid var(--border-color);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
-/* TABLES */
-.cart-table {
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.product-image-container {
+    width: 100%;
+    height: 180px; /* کمی کوتاه‌تر */
+    overflow: hidden;
+    position: relative;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-content {
+    padding: 1.25rem; /* کوچک‌تر */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 1.1rem; /* کوچک‌تر */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.product-price {
+    color: var(--primary-color);
+    font-size: 1.3rem; /* کوچک‌تر */
+    font-weight: 700;
+    margin: 0.3rem 0;
+}
+
+.product-description {
+    color: var(--gray-color);
+    font-size: 0.85rem; /* فونت ریزتر */
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    flex: 1;
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+/* ==============================================
+   TABLES - جدول‌های ظریف
+============================================== */
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    background: white;
+    font-size: 0.9rem; /* فونت ریزتر */
 }
 
-.cart-table th, .cart-table td {
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+thead {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
 }
 
-.cart-table th {
-    background-color: #f4f4f4;
-}
-
-/* FORMS */
-.payment-form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    max-width: 400px;
-}
-
-.payment-form input {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-
-/* ====== AUTH FORMS ====== */
-.auth-form {
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    max-width: 400px;
-    margin-top: 20px;
-}
-
-.auth-form .form-group {
-    margin-bottom: 15px;
-}
-
-.auth-form label {
-    display: block;
+th {
+    padding: 1rem; /* کوچک‌تر */
+    text-align: right;
     font-weight: 600;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.auth-form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-.auth-link {
-    margin-top: 10px;
+    border-bottom: 2px solid white;
     font-size: 0.9rem;
+}
+
+td {
+    padding: 1rem; /* کوچک‌تر */
+    border-bottom: 1px solid var(--border-color);
+    text-align: right;
+}
+
+tbody tr {
+    transition: background-color var(--transition-speed) ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(240, 98, 146, 0.05);
+}
+
+/* ==============================================
+   MESSAGES & ALERTS
+============================================== */
+
+.messages-container {
+    max-width: 800px;
+    margin: 1.25rem auto;
+}
+
+.alert {
+    padding: 1rem 1.25rem; /* کوچک‌تر */
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.5s ease;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border-color: #ffcdd2;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-color: #bbdefb;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border-color: #ffe0b2;
+}
+
+.alert-icon {
+    font-size: 1.25rem; /* کوچک‌تر */
+    flex-shrink: 0;
+}
+
+/* ==============================================
+   FOOTER
+============================================== */
+
+.footer {
+    background: linear-gradient(135deg, #f8bbd9 0%, #f48fb1 100%); /* صورتی کمرنگ */
+    color: #880e4f;
     text-align: center;
+    padding: 2rem 1rem; /* کوچک‌تر */
+    margin-top: 3rem;
 }
 
-.auth-link a {
-    color: #0077cc;
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: #880e4f;
     text-decoration: none;
+    transition: opacity var(--transition-speed) ease;
+    font-size: 0.9rem;
 }
 
-.auth-link a:hover {
-    text-decoration: underline;
+.footer-link:hover {
+    opacity: 0.8;
+    color: #ad1457;
+}
+
+.copyright {
+    margin-top: 1.5rem;
+    color: #880e4f;
+    opacity: 0.8;
+    font-size: 0.85rem;
+}
+
+/* ==============================================
+   UTILITY CLASSES
+============================================== */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: 0.4rem; }
+.mt-2 { margin-top: 0.75rem; }
+.mt-3 { margin-top: 1.25rem; }
+.mt-4 { margin-top: 1.75rem; }
+.mt-5 { margin-top: 2.5rem; }
+
+.mb-1 { margin-bottom: 0.4rem; }
+.mb-2 { margin-bottom: 0.75rem; }
+.mb-3 { margin-bottom: 1.25rem; }
+.mb-4 { margin-bottom: 1.75rem; }
+.mb-5 { margin-bottom: 2.5rem; }
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-1 { gap: 0.4rem; }
+.gap-2 { gap: 0.75rem; }
+.gap-3 { gap: 1.25rem; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+.rounded { border-radius: 8px; }
+.rounded-lg { border-radius: 12px; }
+.rounded-circle { border-radius: 50%; }
+
+.shadow { box-shadow: 0 2px 8px var(--shadow-color); }
+.shadow-lg { box-shadow: 0 5px 20px var(--shadow-color); }
+.shadow-none { box-shadow: none; }
+
+.hidden { display: none; }
+.visible { display: block; }
+
+/* ==============================================
+   ANIMATIONS
+============================================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ==============================================
+   CUSTOM SCROLLBAR
+============================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+}
+
+/* ==============================================
+   LOADING SPINNER
+============================================== */
+
+.spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 3px solid var(--primary-color);
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 1.5rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==============================================
+   RESPONSIVE DESIGN
+============================================== */
+
+@media (max-width: 992px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    
+    .user-info {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+    }
+    
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+}
+
+@media (max-width: 576px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .table-container {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
 }

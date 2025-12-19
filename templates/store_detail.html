@@ -1,39 +1,143 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}{{ store.name }} | DijiKala{% endblock %}
+
+{% block title %}{{ stores.name }}{% endblock %}
 
 {% block content %}
-<div class="store-header">
-    <h2>{{ store.name }}</h2>
-    <p>{{ store.description }}</p>
-
-    {% if user == store.owner.user %}
-        <a href="{% url 'add_product' store.id %}" class="btn">+ Add Product</a>
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
+        <div>
+            <h1>{{ stores.name }}</h1>
+            <p style="color: #666; margin-top: 10px;">{{ stores.description }}</p>
+            <p><small>فروشنده: {{ stores.owner.phone }}</small></p>
+        </div>
+        
+        {% if user == stores.owner %}
+            <!-- فرم ایجاد محصول در همان صفحه -->
+            <div style="text-align: center;">
+                <h4 style="margin-bottom: 10px;">افزودن محصول</h4>
+                <button onclick="toggleProductForm()" class="btn btn-success">+ محصول جدید</button>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- فرم ایجاد محصول (مخفی) -->
+    {% if user == stores.owner %}
+        <div id="productForm" style="display: none; margin-bottom: 30px; padding: 25px; background: #f8f9fa; border-radius: 8px;">
+            <h3 class="mb-4">افزودن محصول جدید</h3>
+            
+            <form method="post" action="{% url 'product_create' stores.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label">نام محصول</label>
+                    <input type="text" name="name" class="form-control" placeholder="نام محصول" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">قیمت (تومان)</label>
+                    <input type="number" name="price" class="form-control" placeholder="قیمت محصول" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">توضیحات</label>
+                    <textarea name="description" class="form-control" rows="3" placeholder="توضیحات محصول" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">عکس محصول</label>
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">افزودن محصول</button>
+                    <button type="button" onclick="toggleProductForm()" class="btn btn-danger">انصراف</button>
+                </div>
+            </form>
+        </div>
+        
+        <script>
+            function toggleProductForm() {
+                var form = document.getElementById('productForm');
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                } else {
+                    form.style.display = 'none';
+                }
+            }
+        </script>
+    {% endif %}
+    
+    <h3 class="mb-4">محصولات این فروشگاه</h3>
+    
+    {% if stores.product_set.all %}
+        <div class="products-grid">
+            {% for product in stores.product_set.all %}
+                <div class="product-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                    {% else %}
+                        <div style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                            <span>بدون تصویر</span>
+                        </div>
+                    {% endif %}
+                    <div class="product-content">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <p class="product-price">{{ product.price }} تومان</p>
+                        
+                        {% if user == stores.owner %}
+                            <div class="product-stock-control" style="margin: 10px 0;">
+                                <span>موجودی: {{ product.stock }} عدد</span>
+                                
+                                <!-- فرم کاهش موجودی -->
+                                <form method="post" action="{% url 'update_product_stock' product.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="decrease">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="padding: 2px 8px; margin-right: 5px;">−</button>
+                                </form>
+                                
+                                <!-- فرم افزایش موجودی -->
+                                <form method="post" action="{% url 'update_product_stock' product.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="increase">
+                                    <button type="submit" class="btn btn-sm btn-outline-success" style="padding: 2px 8px;">+</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                        
+                        <p>{{ product.description|truncatechars:100 }}</p>
+                        
+                        {% if user.is_authenticated and user.is_customer %}
+                            <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin-top: 15px;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">افزودن به سبد خرید</button>
+                            </form>
+                        {% endif %}
+                        
+                        {% if user == stores.owner %}
+                            <div style="margin-top: 10px;">
+                                <form method="post" action="{% url 'delete_product' product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('آیا از حذف این محصول مطمئن هستید؟')">حذف</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center" style="padding: 40px;">
+            <p style="font-size: 18px; color: #666;">این فروشگاه هنوز محصولی ندارد.</p>
+            
+            {% if user == stores.owner %}
+                <button onclick="toggleProductForm()" class="btn btn-success mt-3">افزودن اولین محصول</button>
+            {% endif %}
+        </div>
     {% endif %}
 </div>
 
-<hr>
-
-<div class="card-grid">
-    {% for product in products %}
-        <div class="card">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-                <img src="{% static 'images/default_product.jpg' %}" alt="No image">
-            {% endif %}
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description|truncatewords:12 }}</p>
-            <p><strong>${{ product.price }}</strong></p>
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn">Add to Cart</a>
-            {% else %}
-                <p><a href="{% url 'login' %}">Login to Buy</a></p>
-            {% endif %}
-        </div>
-    {% empty %}
-        <p>No products in this store yet.</p>
-    {% endfor %}
+<div class="text-center mt-4">
+    <a href="{% url 'stores_list' %}" class="btn">بازگشت به لیست فروشگاه‌ها</a>
 </div>
+
 {% endblock %}

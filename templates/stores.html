@@ -1,17 +1,37 @@
 {% extends 'base.html' %}
-{% block title %}Stores | DijiKala{% endblock %}
+
+{% block title %}فروشگاه‌ها{% endblock %}
 
 {% block content %}
-<h2>🏪 All Stores</h2>
-<div class="card-grid">
-    {% for store in stores %}
-        <div class="card">
-            <h3>{{ store.name }}</h3>
-            <p>{{ store.description|truncatewords:15 }}</p>
-            <a href="{% url 'store_detail' store.id %}" class="btn">Visit Store</a>
-        </div>
-    {% empty %}
-        <p>No stores available.</p>
-    {% endfor %}
+<div class="text-center mb-4">
+    <h1>فروشگاه‌های ما</h1>
+    <p>لیست تمام فروشگاه‌های فعال</p>
 </div>
+
+{% if stores_list %}
+    <div class="products-grid">
+        {% for shop in stores_list %}
+            <div class="product-card">
+                <div class="product-content">
+                    <h3 class="product-title">{{ shop.name }}</h3>
+                    <p>{{ shop.description|truncatechars:150 }}</p>
+                    <p><small>توسط: {{ shop.owner.phone }}</small></p>
+                    <div style="margin-top: 15px;">
+                        <a href="{% url 'store_detail' shop.id %}" class="btn btn-primary">مشاهده محصولات</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card text-center">
+        <p>هیچ فروشگاهی موجود نیست.</p>
+    </div>
+{% endif %}
+
+{% if user.is_seller %}
+    <div class="text-center mt-4">
+        <a href="{% url 'store_create' %}" class="btn btn-success">ایجاد فروشگاه جدید</a>
+    </div>
+{% endif %}
 {% endblock %}

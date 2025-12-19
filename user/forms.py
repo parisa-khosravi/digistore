@@ -4,16 +4,16 @@ from .models import *
 class ProfileForm(forms.ModelForm):
     class Meta:
         model=Profile
-        fields=['first_name','last_name','email','balance']
+        fields=['first_name','last_name','email']  #'balance' deleted
         labels={
             'first_name':'نام',
             'last_name':'نام خانوادگی',
             'email':'ایمیل',
-            'balance':'اعتبار خرید',
+            # 'balance':'اعتبار خرید',
         }
         widgets={
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
             'last_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email':forms.EmailInput(attrs={'class':'form-control'}),
-            'balance':forms.NumberInput(attrs={'calss':'form-control'})
+            # 'balance':forms.NumberInput(attrs={'calss':'form-control'})
         }
